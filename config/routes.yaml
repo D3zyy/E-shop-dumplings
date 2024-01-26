@@ -7,4 +7,6 @@ app_logout:
     path: /logout
 main_page:
     path: /
+login_route:
+    path: /login
     

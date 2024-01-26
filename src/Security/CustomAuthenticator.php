@@ -20,7 +20,7 @@ class CustomAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
 
-    public const LOGIN_ROUTE = 'main_page';
+    public const LOGIN_ROUTE = 'login_route';
 
     public function __construct(private UrlGeneratorInterface $urlGenerator)
     {
