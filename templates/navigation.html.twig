@@ -11,7 +11,7 @@
                 <li><a href="#" class="nav-link px-2 text-secondary">Knedlíčky</a></li>
                 <li><a href="#" class="nav-link px-2 text-white">O nás</a></li>
                 <li><a href="#" class="nav-link px-2 text-white">Často kladené otázky</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">Košík</a></li>
+                <li><a href="#" class="nav-link px-2 text-white">Můj košík</a></li>
             </ul>
 
             <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
@@ -21,14 +21,15 @@
             <div class="text-end">
                 {% if isLoggedIn %}
                     {% if isAdmin %}
-                        <p>Welcome, Admin {{ user.username }}!</p>
+                        <p style=" color: red; text-align: center">{{ user.username }}</p>
                     {% else %}
-                        <p>Welcome, {{ user.username }}!</p>
+                        <p style="color: #ffc107;  text-align: center"> {{ user.username }}</p>
                     {% endif %}
-                    <a href="{{ path('app_logout') }}" class="btn btn-outline-light me-2">Logout</a>
+                    <a href="{{ path('app_logout') }}" class="btn btn-outline-light me-2">Odhlásit se</a>
                 {% else %}
-                    <button type="button" class="btn btn-outline-light me-2">Přihlásit se</button>
-                    <button type="button" class="btn btn-warning">Registrovat se</button>
+                    <button onclick="window.location.href='{{ path('login_route') }}'" class="btn btn-outline-light me-2">Přihlásit se</button>
+                    <button onclick="window.location.href='{{ path('app_register') }}'" class="btn btn-warning">Registrovat se</button>
+
                 {% endif %}
             </div>
         </div>
