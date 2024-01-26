@@ -5,5 +5,6 @@ controllers:
     type: attribute
 app_logout:
     path: /logout
-LOGIN_ROUTE:
-    path: /login
+main_page:
+    path: /
+    

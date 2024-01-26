@@ -20,7 +20,7 @@ class CustomAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
 
-    public const LOGIN_ROUTE = 'app_login';
+    public const LOGIN_ROUTE = 'main_page';
 
     public function __construct(private UrlGeneratorInterface $urlGenerator)
     {
@@ -28,12 +28,12 @@ class CustomAuthenticator extends AbstractLoginFormAuthenticator
 
     public function authenticate(Request $request): Passport
     {
-        $password = $request->request->get('password', '');
+        $username = $request->request->get('username', '');
 
-        $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $password);
+        $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $username);
 
         return new Passport(
-            new UserBadge($password),
+            new UserBadge($username),
             new PasswordCredentials($request->request->get('password', '')),
             [
                 new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
@@ -48,9 +48,9 @@ class CustomAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        // For example:
-        // return new RedirectResponse($this->urlGenerator->generate('some_route'));
-        return new RedirectResponse($this->urlGenerator->generate('LOGIN_ROUTE'));
+        
+        return new RedirectResponse($this->urlGenerator->generate('main_page'));
+        
     }
 
     protected function getLoginUrl(Request $request): string
