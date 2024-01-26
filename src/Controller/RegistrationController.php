@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\UserInfoService;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\CustomAuthenticator;
@@ -15,6 +16,14 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class RegistrationController extends AbstractController
 {
+    private $userInfoService;
+
+    public function __construct(UserInfoService $userInfoService) {
+        $this->userInfoService = $userInfoService;
+    }
+
+
+
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, CustomAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
@@ -43,9 +52,9 @@ class RegistrationController extends AbstractController
                 $request
             );
         }
-
+        $userInfo = $this->userInfoService->getUserInfo();
         return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
+            'registrationForm' => $form->createView(),'userInfo' => $userInfo
         ]);
     }
 }
