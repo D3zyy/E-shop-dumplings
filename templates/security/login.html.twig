@@ -9,26 +9,22 @@
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
 
-        {% if app.user %}
-            <div class="mb-3">
-                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-            </div>
-        {% endif %}
+        
 
-        <h1 style="text-align: center; color: #333; font-size: 24px; margin-bottom: 20px;">Please sign in</h1>
+        <h1 style="text-align: center; color: #333; font-size: 24px; margin-bottom: 20px;">Přihlášení</h1>
         <form method="post">
             <div style="margin-bottom: 15px;">
-                <label for="inputUsername">Username</label>
+                <label for="inputUsername">Uživatelské jméno</label>
                 <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
             </div>
             <div style="margin-bottom: 15px;">
-                <label for="inputPassword">Password</label>
+                <label for="inputPassword">Heslo</label>
                 <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
             </div>
 
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-            <button class="btn btn-lg btn-primary" type="submit" style="width: 100%; padding: 10px; border: none; border-radius: 5px; cursor: pointer;">Sign in</button>
+            <button class="btn btn-lg btn-primary" type="submit" style="width: 100%;  padding: 10px; border: none; border-radius: 5px; cursor: pointer;">Sign in</button>
         </form>
     </div>
 {% endblock %}
