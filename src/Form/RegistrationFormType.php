@@ -22,7 +22,7 @@ class RegistrationFormType extends AbstractType
                                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'Měli byste souhlasit s našimi podmínky.',
+                        'message' => 'You should agree to our terms.',
                     ]),
                 ],
             ])
@@ -33,12 +33,12 @@ class RegistrationFormType extends AbstractType
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Prosím zadejte heslo',
+                        'message' => 'Please enter a password',
                     ]),
                     new Length([
                         'min' => 6,
-                        'minMessage' => 'Vaše heslo by mělo mít minimálně {{ limit }} znaků',
-                        
+                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
                 ],

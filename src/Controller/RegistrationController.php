@@ -17,31 +17,28 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 class RegistrationController extends AbstractController
 {
     private $userInfoService;
-
     public function __construct(UserInfoService $userInfoService) {
         $this->userInfoService = $userInfoService;
     }
-
-
+    
 
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, CustomAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
+        $userInfo = $this->userInfoService->getUserInfo();
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
-            $user->setRoles(['ROLE_USER']);
-
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
                     $form->get('plainPassword')->getData()
                 )
             );
-            
+
             $entityManager->persist($user);
             $entityManager->flush();
             // do anything else you need here, like send an email
@@ -52,9 +49,11 @@ class RegistrationController extends AbstractController
                 $request
             );
         }
-        $userInfo = $this->userInfoService->getUserInfo();
+        
+
+        
         return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),'userInfo' => $userInfo
+            'registrationForm' => $form->createView(),'userInfo' =>$userInfo 
         ]);
     }
 }

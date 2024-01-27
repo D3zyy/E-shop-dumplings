@@ -3,23 +3,23 @@
 
 {% block body %}
     <div style="max-width: 400px; margin: auto; margin-top: 50px;  padding: 20px; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-        <h1 style="text-align: center; color: #333; font-size: 24px;">Register</h1>
+        <h1 style="text-align: center; color: #333; font-size: 24px;">Registrace</h1>
 
         {{ form_errors(registrationForm) }}
 
         {{ form_start(registrationForm) }}
             <div style="margin-bottom: 15px;">
-                {{ form_row(registrationForm.username, {'attr': {'class': 'form-control', 'placeholder': 'Username'}}) }}
+                {{ form_row(registrationForm.username, {'label': 'Uživatelské jméno','attr': {'class': 'form-control', 'placeholder': 'Uživatelské jméno'}}) }}
             </div>
             <div style="margin-bottom: 15px;">
-                {{ form_row(registrationForm.plainPassword, {'label': 'Password', 'attr': {'class': 'form-control', 'placeholder': 'Password'}}) }}
+                {{ form_row(registrationForm.plainPassword, {'label': 'Heslo', 'attr': {'class': 'form-control', 'placeholder': 'Heslo'}}) }}
             </div>
             <div style="margin-bottom: 15px;">
-                {{ form_row(registrationForm.agreeTerms, {'attr': {'style': 'margin-left: 10px;'}}) }}
+                {{ form_row(registrationForm.agreeTerms, {'label': 'Souhlasit s podmínkami','attr': {'style': 'margin-left: 10px;'}}) }}
          
             </div>
 
-            <button type="submit" class="btn btn-warning" style="width: 100%; padding: 10px; border: none; border-radius: 5px; cursor: pointer;">Register</button>
+            <button type="submit" class="btn btn-warning" style="width: 100%; padding: 10px; border: none; border-radius: 5px; cursor: pointer;">Registrovat se</button>
         {{ form_end(registrationForm) }}
     </div>
 {% endblock %}
