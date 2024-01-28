@@ -103,13 +103,13 @@ class CartController extends AbstractController
     }
     
     #[Route('/complete-purchase', name: 'complete_purchase')]
-    public function completePurchase(): Response
+    public function completePurchase(SessionInterface $session): Response
     {
-        // For demonstration purposes, let's simulate completing the purchase by clearing the cart
-        $this->get('session')->set('cart', []);
+        // Clear the entire session
+        $session->clear();
 
         // Display an alert message (you might want to use JavaScript for a more dynamic alert)
-        $this->addFlash('success', 'Purchase completed!');
+        $this->addFlash('success', 'Nákup úspěšně dokončen!');
 
         // Redirect back to the cart or wherever you prefer
         return $this->redirectToRoute('cart');

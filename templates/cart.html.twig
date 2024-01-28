@@ -1,17 +1,44 @@
 {{ include('head.html.twig') }}
 {{ include('navigation.html.twig', userInfo) }}
 
-<h1>Košík</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Košík</title>
+    <!-- Include any necessary CSS stylesheets or frameworks here -->
+    <link rel="stylesheet" href="path/to/your/css/style.css">
+</head>
+<body>
 
-{% if productsInCart is empty %}
-    <p>Váš košík je prázdný.</p>
-{% else %}
-    <ul>
-        {% for cartItem in productsInCart %}
-            <li>{{ cartItem.product.name }} - {{ cartItem.product.price }} Kč (Počet: {{ cartItem.quantity }})</li>
+    <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+        <h1 style="text-align: center; color: #333;">Košík</h1>
+
+        {% for message in app.flashes('success') %}
+            <div style="margin-bottom: 10px; padding: 10px; background-color: #d4edda; border: 1px solid #c3e6cb; border-radius: 5px; color: #155724;">
+                {{ message }}
+            </div>
         {% endfor %}
-    </ul>
-    <a href="{{ path('complete_purchase') }}" class="btn btn-success">Zaplatit {{ finalPrice }} Kč</a>
-{% endif %}
 
+        {% for message in app.flashes('error') %}
+            <div style="margin-bottom: 10px; padding: 10px; background-color: #f8d7da; border: 1px solid #f5c6cb; border-radius: 5px; color: #721c24;">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        {% if productsInCart is empty %}
+            <p style="text-align: center; font-size: 18px; color: #666;">Váš košík je prázdný.</p>
+        {% else %}
+            <ul style="list-style-type: none; padding: 0;">
+                {% for cartItem in productsInCart %}
+                    <li style="margin-bottom: 10px; padding: 10px; background-color: #fff; border: 1px solid #ddd; border-radius: 5px; box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);">
+                        <strong>{{ cartItem.product.name }}</strong> - {{ cartItem.product.price }} Kč (Počet: {{ cartItem.quantity }})
+                    </li>
+                {% endfor %}
+            </ul>
+            <a href="{{ path('complete_purchase') }}" style="display: block; margin-top: 20px; padding: 10px; background-color: #28a745; color: #fff; text-align: center; text-decoration: none; border-radius: 5px;">Zaplatit {{ finalPrice }} Kč</a>
+        {% endif %}
+
+    </div>
 {{ include('footer.html.twig') }}
