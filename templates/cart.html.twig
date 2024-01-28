@@ -1,0 +1,20 @@
+{{include('head.html.twig')}}
+{{include('navigation.html.twig',userInfo)}}
+
+
+<h1>Your Shopping Cart</h1>
+
+    {% if productsInCart is empty %}
+        <p>Your cart is empty.</p>
+    {% else %}
+        <ul>
+            {% for product in productsInCart %}
+                <li>{{ product.name }} - {{ product.price }} Kč</li>
+            {% endfor %}
+        </ul>
+        <a href="{{ path('complete_purchase') }}" class="btn btn-success">Complete Purchase</a>
+    {% endif %}
+
+
+
+{{include('footer.html.twig')}}
