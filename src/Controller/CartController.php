@@ -106,7 +106,7 @@ class CartController extends AbstractController
     public function completePurchase(SessionInterface $session): Response
     {
         // Clear the entire session
-        $session->clear();
+        $session->remove('cart');
 
         // Display an alert message (you might want to use JavaScript for a more dynamic alert)
         $this->addFlash('success', 'Nákup úspěšně dokončen!');
