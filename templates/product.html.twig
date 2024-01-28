@@ -3,17 +3,35 @@
 
 
  <div class="d-flex align-items-center justify-content-center mt-5">
-        <div class="card" style="width: 34rem;">
-            <img src="{{ asset('products/' ~ product.getImageFilename()) }}" class="card-img-top" style="object-fit: cover; height: 300px;"alt="Product Image">
-            <div class="card-body">
-                <h5 class="card-title">{{ product.name }}</h5>
-                <p class="card-text">{{ product.description }}</p>
-                <p class="card-text">{{ product.price }} Kč</p>
-                <a href="{{ path('add_to_cart', {'id': product.id}) }}" class="btn btn-primary">Add to Cart</a>
-                <a href="/" class="btn btn-primary">Go Back</a>
-            </div>
+    <div class="card" style="width: 34rem;">
+        <img src="{{ asset('products/' ~ product.getImageFilename()) }}" class="card-img-top" style="object-fit: cover; height: 300px;" alt="Product Image">
+        <div class="card-body">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text">{{ product.description }}</p>
+            <p class="card-text">{{ product.price }} Kč</p>
+            <a style="margin-right: 10px;" href="{{ path('add_to_cart', {'id': product.id, 'quantity': 1}) }}" class="btn btn-primary" id="addToCartLink">Přidat do košíku</a>
+            <select style="margin-bottom: 20px;" id="quantity" name="quantity">
+                {% for i in 1..100 %}
+                    <option value="{{ i }}">{{ i }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <a href="/" class="btn btn-primary">Zpět</a>
         </div>
     </div>
+</div>
+
+<script>
+    // Funkce pro aktualizaci odkazu podle vybraného množství
+    function updateAddToCartLink() {
+        var selectedQuantity = document.getElementById('quantity').value;
+        var addToCartLink = document.getElementById('addToCartLink');
+        addToCartLink.href = addToCartLink.href.split('&')[0] + '&quantity=' + selectedQuantity;
+    }
+
+    // Přidání posluchače události na změnu hodnoty v <select>
+    document.getElementById('quantity').addEventListener('change', updateAddToCartLink);
+</script>
 
 
 {{include('footer.html.twig')}}

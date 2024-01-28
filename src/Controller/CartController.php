@@ -8,57 +8,100 @@ use App\Service\UserInfoService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use App\Service\ProductService;
+use Symfony\Component\HttpFoundation\Request;
 class CartController extends AbstractController
 {
 
     private $userInfoService;
-
-    public function __construct(UserInfoService $userInfoService)
+    private $productService;
+    public function __construct(UserInfoService $userInfoService,ProductService $productService)
     {
         $this->userInfoService = $userInfoService;
+        $this->productService = $productService;
 
     }
 
 
-    #[Route('/add-to-cart/{id}', name: 'add_to_cart')]
-    public function addToCart(int $id): Response
+    #[Route('/add-to-cart/{id}', name: 'add_to_cart', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
+    public function addToCart(int $id, Request $request, SessionInterface $session): Response
     {
-        $cart = $this->get('session')->get('cart', []);
+        // Získání existujícího košíku ze session
+        $cart = $session->get('cart', []);
 
-        // Add the product ID to the cart
-        $cart[] = $id;
+        // Získání hodnoty množství z formuláře nebo z query parametru
+        $quantity = $request->request->get('quantity', $request->query->get('quantity'));
+        $quantity = max(intval($quantity), 1);
+        // Přidání nové položky do košíku
+        $product = ['id' => $id, 'quantity' => $quantity];
 
-        // Save the updated cart in the session
-        $this->get('session')->set('cart', $cart);
-
-        // Redirect back to the product page or wherever you prefer
-        return $this->redirectToRoute('product_show', ['id' => $id]);
-    }
-
-    #[Route('/cart', name: 'cart')]
-    public function showCart(): Response
-    {
-        $cart = $this->get('session')->get('cart', []);
-
-        // Fetch products based on the product IDs in the cart (this logic may vary based on your actual implementation)
-        // For demonstration purposes, we're just using a dummy array of products
-        $productsInCart = [];
-
-        foreach ($cart as $productId) {
-            // Fetch the actual product entity based on the ID
-            // You would need to implement this logic based on your entity structure and database
-            $product = $this->getDoctrine()->getRepository(Product::class)->find($productId);
-
-            if ($product) {
-                $productsInCart[] = $product;
+        $existingProductKey = null;
+        foreach ($cart as $key => $cartItem) {
+            if ($cartItem['id'] === $id) {
+                $existingProductKey = $key;
+                break;
             }
         }
 
-        return $this->render('cart/cart.html.twig', [
+        // Pokud produkt již existuje v košíku, upravíme pouze jeho kvantitu
+        if ($existingProductKey !== null) {
+            $cart[$existingProductKey]['quantity'] += $quantity;
+        } else {
+            // Jinak přidáme novou položku do košíku
+            $product = ['id' => $id, 'quantity' => $quantity];
+            $cart[] = $product;
+        }
+
+        // Uložení aktualizovaného košíku zpět do session
+        $session->set('cart', $cart);
+
+        // Redirect zpět na stránku s produktem nebo kamkoliv jinam
+        return $this->redirectToRoute('cart');
+    }
+
+    #[Route('/cart', name: 'cart')]
+    public function showCart(SessionInterface $session): Response
+    {
+        $cart = $session->get('cart', []);
+
+        // Inicializace prázdného pole pro produkty v košíku
+        $productsInCart = [];
+
+        // Výpočet celkové ceny
+        $finalPrice = 0;
+
+        // Projdeme všechny položky v košíku
+        foreach ($cart as $cartItem) {
+            // Získáme ID a množství položky v košíku
+            $productId = $cartItem['id'];
+            $quantity = $cartItem['quantity'];
+
+            // Načteme produkt z databáze podle ID
+            $product = $this->productService->getProductById($productId);
+
+            // Pokud produkt existuje, přidáme ho do pole
+            if ($product) {
+                $productsInCart[] = [
+                    'product' => $product,
+                    'quantity' => $quantity,
+                    'subtotal' => $quantity * $product->getPrice(), // Přístup přímo k atributu price
+                ];
+
+                // Přičteme cena produktu * množství k celkové ceně
+                $finalPrice += $quantity * $product->getPrice();
+            }
+        }
+
+        $userInfo = $this->userInfoService->getUserInfo();
+
+        return $this->render('cart.html.twig', [
             'productsInCart' => $productsInCart,
+            'userInfo' => $userInfo,
+            'finalPrice' => $finalPrice,
         ]);
     }
+    
     #[Route('/complete-purchase', name: 'complete_purchase')]
     public function completePurchase(): Response
     {

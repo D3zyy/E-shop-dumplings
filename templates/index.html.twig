@@ -20,7 +20,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
                                 <a href="{{ path('product', {'id': product.id}) }}" class="btn btn-sm btn-outline-secondary">Zobrazit</a>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Přidat do košíku</button>
+                                <button onclick="window.location.href='{{ path('add_to_cart', {'id': product.id}) }}'" type="button" class="btn btn-sm btn-outline-secondary">Přidat do košíku</button>
                             </div>
                             <small style="margin-left: 20px; class="text-body-secondary">{{ product.price }} CZK</small>
                         </div>

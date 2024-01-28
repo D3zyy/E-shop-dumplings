@@ -6,6 +6,9 @@
 parameters:
 
 services:
+    App\Service\ProductService:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
     App\Service\UserInfoService:
         arguments: ['@security.helper']
     # default configuration for services in *this* file
