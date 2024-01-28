@@ -27,13 +27,13 @@ class CartController extends AbstractController
     #[Route('/add-to-cart/{id}', name: 'add_to_cart', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
     public function addToCart(int $id, Request $request, SessionInterface $session): Response
     {
-        // Získání existujícího košíku ze session
+      
         $cart = $session->get('cart', []);
 
-        // Získání hodnoty množství z formuláře nebo z query parametru
+        
         $quantity = $request->request->get('quantity', $request->query->get('quantity'));
         $quantity = max(intval($quantity), 1);
-        // Přidání nové položky do košíku
+
         $product = ['id' => $id, 'quantity' => $quantity];
 
         $existingProductKey = null;
@@ -44,19 +44,19 @@ class CartController extends AbstractController
             }
         }
 
-        // Pokud produkt již existuje v košíku, upravíme pouze jeho kvantitu
+       
         if ($existingProductKey !== null) {
             $cart[$existingProductKey]['quantity'] += $quantity;
         } else {
-            // Jinak přidáme novou položku do košíku
+          
             $product = ['id' => $id, 'quantity' => $quantity];
             $cart[] = $product;
         }
 
-        // Uložení aktualizovaného košíku zpět do session
+     
         $session->set('cart', $cart);
 
-        // Redirect zpět na stránku s produktem nebo kamkoliv jinam
+
         return $this->redirectToRoute('cart');
     }
 
@@ -65,30 +65,30 @@ class CartController extends AbstractController
     {
         $cart = $session->get('cart', []);
 
-        // Inicializace prázdného pole pro produkty v košíku
+       
         $productsInCart = [];
 
-        // Výpočet celkové ceny
+
         $finalPrice = 0;
 
-        // Projdeme všechny položky v košíku
+        
         foreach ($cart as $cartItem) {
-            // Získáme ID a množství položky v košíku
+    
             $productId = $cartItem['id'];
             $quantity = $cartItem['quantity'];
 
-            // Načteme produkt z databáze podle ID
+
             $product = $this->productService->getProductById($productId);
 
-            // Pokud produkt existuje, přidáme ho do pole
+
             if ($product) {
                 $productsInCart[] = [
                     'product' => $product,
                     'quantity' => $quantity,
-                    'subtotal' => $quantity * $product->getPrice(), // Přístup přímo k atributu price
+                    'subtotal' => $quantity * $product->getPrice(), 
                 ];
 
-                // Přičteme cena produktu * množství k celkové ceně
+          
                 $finalPrice += $quantity * $product->getPrice();
             }
         }
@@ -105,13 +105,12 @@ class CartController extends AbstractController
     #[Route('/complete-purchase', name: 'complete_purchase')]
     public function completePurchase(SessionInterface $session): Response
     {
-        // Clear the entire session
+
         $session->remove('cart');
 
-        // Display an alert message (you might want to use JavaScript for a more dynamic alert)
+    
         $this->addFlash('success', 'Nákup úspěšně dokončen!');
 
-        // Redirect back to the cart or wherever you prefer
         return $this->redirectToRoute('cart');
     }
 }
