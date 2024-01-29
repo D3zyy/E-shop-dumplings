@@ -1,9 +1,16 @@
 {{include('head.html.twig')}}
 {{include('navigation.html.twig',userInfo)}}
 
-
+        
+{% for message in app.flashes('success') %}
+            <div class="card" style="margin-bottom: 5px; padding: 10px; background-color: #d4edda; border: 1px solid #c3e6cb; border-radius: 5px; color: #155724;">
+                {{ message }}
+            </div>
+        {% endfor %}
  <div class="d-flex align-items-center justify-content-center mt-5">
+    
     <div class="card" style="width: 34rem;">
+        
         <img src="{{ asset('products/' ~ product.getImageFilename()) }}" class="card-img-top" style="object-fit: cover; height: 300px;" alt="Product Image">
         <div class="card-body">
             <h5 class="card-title">{{ product.name }}</h5>

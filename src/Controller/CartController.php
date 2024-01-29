@@ -55,9 +55,12 @@ class CartController extends AbstractController
 
      
         $session->set('cart', $cart);
+        
+
+        $this->addFlash('success', 'Produkt úspěšně přidán do košíku');
 
 
-        return $this->redirectToRoute('cart');
+        return $this->redirect($request->headers->get('referer'));
     }
 
     #[Route('/cart', name: 'cart')]
