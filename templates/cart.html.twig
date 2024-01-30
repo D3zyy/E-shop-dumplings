@@ -20,9 +20,13 @@
                 {{ message }}
             </div>
         {% endfor %}
-
+        {% for message in app.flashes('removeItem') %}
+            <div class="alert alert-warning" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
         {% for message in app.flashes('error') %}
-            <div style="margin-bottom: 10px; padding: 10px; background-color: #f8d7da; border: 1px solid #f5c6cb; border-radius: 5px; color: #721c24;">
+            <div class="alert alert-warning" style="margin-bottom: 10px; padding: 10px; background-color: #f8d7da; border: 1px solid #f5c6cb; border-radius: 5px; color: #721c24;">
                 {{ message }}
             </div>
         {% endfor %}
@@ -32,9 +36,14 @@
         {% else %}
             <ul style="list-style-type: none; padding: 0;">
                 {% for cartItem in productsInCart %}
-                    <li style="margin-bottom: 10px; padding: 10px; background-color: #fff; border: 1px solid #ddd; border-radius: 5px; box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);">
-                        <strong>{{ cartItem.product.name }}</strong> - {{ cartItem.product.price }} Kč (Počet: {{ cartItem.quantity }})
-                    </li>
+                    <li style="margin-bottom: 10px; padding: 10px; background-color: #fff; border: 1px solid #ddd; border-radius: 5px; box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); display: flex; justify-content: space-between; align-items: center;">
+    <span>
+        <strong>{{ cartItem.product.name }}</strong> - {{ cartItem.product.price }} Kč (Počet: {{ cartItem.quantity }})
+    </span>
+    <a style="text-decoration:none; color: red;" href="{{ path('remove_item', {'name': cartItem.product.name}) }}">❌</a>
+</li>
+
+                    
                 {% endfor %}
             </ul>
             <a href="{{ path('complete_purchase') }}" style="display: block; margin-top: 20px; padding: 10px; background-color: #28a745; color: #fff; text-align: center; text-decoration: none; border-radius: 5px;">Zaplatit {{ finalPrice }} Kč</a>

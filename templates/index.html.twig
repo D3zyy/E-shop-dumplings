@@ -11,20 +11,30 @@
             </div>
         {% endfor %}
     
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-3">
+    <div class=" row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-3">
     {% for product in Products %}
-        <div class="col card-container">
+        <div class="animation col card-container">
             <div class="card shadow-sm">
                 {% if product.getImageFilename() is not null %}
                     <img src="{{ asset('products/' ~ product.getImageFilename()) }}" class="bd-placeholder-img card-img-top" style="object-fit: cover; height: 100%;" alt="Product Image">
                 {% else %}
                     <p> bez obrázku </p>
                 {% endif %}
+                <style>
+    .animation {
+        transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+    }
+
+    .animation:hover {
+        transform: scale(1.05);
+
+    }
+</style>
                 <div class="card-body">
                     <p class="card-text">{{ product.name }}</p>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
-                            <a href="{{ path('product', {'id': product.id}) }}" class="btn btn-sm btn-outline-secondary">Zobrazit</a>
+                            <a style="text-align: centre" href="{{ path('product', {'id': product.id}) }}" class="btn btn-sm btn-outline-secondary">Zobrazit</a>
                             <button onclick="window.location.href='{{ path('add_to_cart', {'id': product.id}) }}'" type="button" class="btn btn-sm btn-outline-secondary">Přidat do košíku</button>
                         </div>
                         <small style="margin-left: 20px;" class="text-body-secondary">{{ product.price }} CZK</small>

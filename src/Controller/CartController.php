@@ -104,7 +104,35 @@ class CartController extends AbstractController
             'finalPrice' => $finalPrice,
         ]);
     }
-    
+    #[Route('/remove-item/{name}', name: 'remove_item')]
+public function removeItem(string $name, SessionInterface $session, ProductService $productService): Response
+{
+
+    $idProduct = $productService->getProductIdByName($name);
+
+    if ($idProduct !== null) {
+        $cart = $session->get('cart', []);
+
+
+        $indexToRemove = array_search($idProduct, array_column($cart, 'id'));
+
+        if ($indexToRemove !== false) {
+          
+            array_splice($cart, $indexToRemove, 1);
+
+            $session->set('cart', $cart);
+
+            $this->addFlash('removeItem', 'Položka úspěšně odebrána!');
+        } else {
+            $this->addFlash('error', 'Item not found in the cart.'); 
+        }
+    } else {
+        $this->addFlash('error', 'Product not found.'); 
+    }
+
+    return $this->redirectToRoute('cart');
+}
+
     #[Route('/complete-purchase', name: 'complete_purchase')]
     public function completePurchase(SessionInterface $session): Response
     {

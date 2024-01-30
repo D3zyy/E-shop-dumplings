@@ -8,7 +8,13 @@ use Doctrine\ORM\EntityManagerInterface;
 class ProductService
 {
     private $entityManager;
+    public function getProductIdByName(string $productName): ?int
+    {
+        $product = $this->entityManager->getRepository(Product::class)->findOneBy(['name' => $productName]);
 
+        // Pokud byl produkt nalezen, vrátí jeho ID, jinak vrátí null
+        return $product ? $product->getId() : null;
+    }
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
