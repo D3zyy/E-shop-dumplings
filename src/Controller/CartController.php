@@ -97,7 +97,10 @@ class CartController extends AbstractController
         }
 
         $userInfo = $this->userInfoService->getUserInfo();
-
+        if ($userInfo['isLoggedIn'] == true) {
+            $finalPrice = $finalPrice * 0.85;
+        }
+        
         return $this->render('cart.html.twig', [
             'productsInCart' => $productsInCart,
             'userInfo' => $userInfo,

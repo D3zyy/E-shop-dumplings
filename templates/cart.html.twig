@@ -14,7 +14,6 @@
 
     <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
         <h1 style="text-align: center; color: #333;">Košík</h1>
-
         {% for message in app.flashes('success') %}
             <div style="margin-bottom: 10px; padding: 10px; background-color: #d4edda; border: 1px solid #c3e6cb; border-radius: 5px; color: #155724;">
                 {{ message }}
@@ -34,6 +33,12 @@
         {% if productsInCart is empty %}
             <p style="text-align: center; font-size: 18px; color: #666;">Váš košík je prázdný.</p>
         {% else %}
+            {% if userInfo['isLoggedIn'] %}
+            <div class="alert alert-info" role="alert">
+                <a href="#" class="alert-link" style="text-decoration: none;">15% sleva </a>přihlášený uživatel
+            </div>
+            
+        {% endif %}
             <ul style="list-style-type: none; padding: 0;">
                 {% for cartItem in productsInCart %}
                     <li style="margin-bottom: 10px; padding: 10px; background-color: #fff; border: 1px solid #ddd; border-radius: 5px; box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); display: flex; justify-content: space-between; align-items: center;">
