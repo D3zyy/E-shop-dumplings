@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
@@ -24,6 +25,9 @@ class Product
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imageFilename = null;
+
+    #[ORM\Column()]
+    private ?array $tags = [];
 
     public function getId(): ?int
     {
@@ -74,6 +78,20 @@ class Product
     public function setImageFilename(?string $imageFilename): static
     {
         $this->imageFilename = $imageFilename;
+
+        return $this;
+    }
+
+    public function getTags(): ?array
+    {
+        $tags = $this->tags;
+
+        return array_unique($tags);
+    }
+
+    public function setTags(?array $tags): static
+    {
+        $this->tags = $tags;
 
         return $this;
     }
