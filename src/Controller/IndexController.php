@@ -29,4 +29,21 @@ class IndexController extends AbstractController
 
         return $this->render('index.html.twig', ['userInfo' => $userInfo, 'Products' => $products]);
     }
+    #[Route('/about-us', name: 'about-us')]
+    public function about_us(): Response
+    {
+        $userInfo = $this->userInfoService->getUserInfo();
+
+
+        return $this->render('about-us.html.twig', ['userInfo' => $userInfo]);
+    }
+
+    #[Route('/questions', name: 'questions')]
+    public function questions(): Response
+    {
+        $userInfo = $this->userInfoService->getUserInfo();
+        
+
+        return $this->render('questions.html.twig', ['userInfo' => $userInfo]);
+    }
 }
