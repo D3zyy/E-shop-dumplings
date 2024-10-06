@@ -1,0 +1,21 @@
+# 1.
+upravit dbs url v .env
+
+# 2.
+   vytvoření db -           php bin/console doctrine:database:create
+   migrace -                php bin/console doctrine:migrations:migrate
+   vytvoření schéma -       php bin/console doctrine:schema:update --force
+
+# 3. pridani produktů
+INSERT INTO product (name, description, price, image_filename, tags) VALUES
+('Jahodový knedlík', 'Jahodové knedlíky jsou oblíbenou letní pochoutkou. Jahody jsou bohaté na antioxidanty a vitamín C, který podporuje imunitní systém a zdraví kůže.', 79.99, 'jahoda.jpeg', '[\"vege\",\"Discount15\"]'),
+('Borůvkový knedlík', 'Borůvky jsou považovány za jednu z nejzdravějších potravin. Naše borůvkové knedlíky využívají tento superpotravinu k vytvoření lahodného a zdravého jídla', 69.99, 'boruvka.jpeg', '[\"GlutenFree\"]'),
+('Zmrzlinový knedlík', 'Tento jedinečný dezert je skvělou volbou pro milovníky zmrzliny a tradičních českých knedlíků. Naše zmrzlinové knedlíky jsou vyrobeny z kvalitní zmrzliny', 129.99, 'zmrzlina.jpeg', '[\"Recommended\",\"GlutenFree\"]'),
+('Oříškový knedlík', 'Tento dezert je skvělou volbou pro milovníky ořechů a tradičních českých knedlíků. Naše oříškové knedlíky jsou vyrobeny z kvalitních ořechů', 129.99, 'orisek.jpeg', '[\"Bez lepku\",\"Discount 10\"]'),
+('Oreo knedlík', 'Oreo Knedlík je lahodný dezert, který kombinuje tradiční českou kuchyni s oblíbenou světovou značkou. Tento knedlík je plněný křupavými Oreo sušenkami a má bohatou čokoládovou příchuť', 59.99, 'oreo.jpeg', '[\"Recommended\"]'),
+('Pistáciový knedlík', 'Pistáciový Knedlík je exotická varianta tradičního českého pokrmu, která přináší jedinečnou chuť a barvu do vašeho jídelníčku', 128.99, 'pistaciovi.jpeg', '[\"Recommended\"]'),
+('Malinový knedlík', 'Tento lahodný knedlík je plněný svěžími malinami, které dodávají dokonalou rovnováhu mezi sladkostí a kyselostí. Je to skvělá volba pro ty, kteří mají rádi ovocné dezerty.', 59.99, 'malina.jpeg', '[\"Discount15\",\"Recommended\"]'),
+('Ostružinový knedlík', 'Tento knedlík je plněný sladkými a šťavnatými ostružinami. Jeho bohatá a intenzivní chuť je jako láska na první ochutnání.', 118.99, 'ostruzina.jpeg', '[]'),
+('Mléčný knedlík', 'Tento knedlík je vyrobený z nejjemnějšího mléka, které dodává jeho krémové a bohaté chuti. Je to ideální volba pro ty, kteří hledají něco jemného a lahodného.', 188.99, 'mlecny.jpeg', '[]'),
+('Medový knedlík', 'Tento knedlík je slazený přírodním medem, který dodává jeho jedinečné a neodolatelné chuti. Je to dokonalý dezert pro ty, kteří mají rádi sladké pochoutky.', 170.99, 'medovy.jpeg', '[]'),
+('Meruňkový knedlík', 'Tyto knedlíky jsou klasickou lahůdkou české kuchyně, připravené podle tradičních receptů našich babiček. Meruňky jsou bohaté na vitamíny a minerály', 59.99, 'merunka.jpeg', '[\"Recommended\"]');
